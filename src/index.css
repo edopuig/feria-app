@@ -1,0 +1,332 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif,Roboto;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(0, 0, 0, 0.87);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.boton-reset {
+  bottom: 10px;
+  right: 10px;
+  background: #e9817d;;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.boton-reset, .boton-modoOscuro {
+  position: fixed; /* Fijo para que no se mueva con el scroll */
+}
+
+.titulo-editable {
+  font-weight: bold;
+  font-size: 24px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  outline: none;
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 1rem;
+}
+
+.app-container {
+  display: flex; 
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background-color: #fff8e5;
+  min-height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 5vh; /* Para dar espacio cuando aparece el teclado */
+  position: relative;
+}
+
+.left-column {
+  width: 55%;
+  border-right: 2px solid black;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.left-column.ancha {
+  width: 85%;
+}
+
+.right-column {
+  width: 45%;
+  overflow: hidden;
+  overflow-y: auto;  /* ← esto habilita scroll interno */
+}
+
+.right-column.oculta {
+  width: 25%;
+}
+
+.left-column, .right-column {
+  padding: 1rem;
+  box-sizing: border-box;
+  transition: width 0.3s ease;
+}
+
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {    
+  
+  a:hover {
+    color: #000dff;
+  }
+  button {
+    background-color: #f8e8a2;
+  }
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.product-box {
+  border: 2px solid #d8e9ca;
+  padding: 1.7rem;
+  font-size: 1.3rem;
+  background: #d8e9ca;
+  color: black;
+}
+
+.eliminar-button {
+  margin-left: 10px;
+  color: #e9817d;
+  border: none;
+  background: none;
+  font-size: 18px;
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+  font-size: 1rem;
+  padding: 0.8rem;
+  margin: 0.5rem;
+  box-sizing: border-box;
+}
+
+.Opciones{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  
+}
+
+.NombreLabel{
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  grid-column: span 1;
+}
+
+.nombreImput{
+  grid-column: span 3;
+  width: 80%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid #d8e9ca;
+  background-color: #fff8e5;
+}
+
+.tipoPagoLabel{
+  display: flex;
+  align-items: center;
+  grid-column: span 1;
+  font-weight: 600;
+}
+
+.tipoPagoSelect{
+  grid-column: span 3;
+  width: 80%;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff8e5;
+  border-bottom: 2px solid #d8e9ca;
+}
+
+.OtrosPagos{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  
+}
+
+.nombreOtroPagoImput{
+  grid-column: span 3;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid #d8e9ca;
+  background-color: #fff8e5;
+}
+.OtroPagoImput{
+  grid-column: span 1;
+  width: 80%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid #d8e9ca;
+  background-color: #fff8e5;
+}
+
+.buttons-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.boton-limpiar {
+  width: 90%;
+  background-color: #e9817d;
+  color: white;
+  padding: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.boton-limpiar:hover {
+  background-color: #c9302c;
+}
+
+.boton-registrar {
+  width:90%;
+  border: 2px solid #a3bfa6;
+  color: white;
+  background: #a3bfa6;
+  padding: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.total{
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arosButton{
+  margin: 0.1rem;
+  background: #d8e9ca;
+  color: black;
+  grid-row: 1;
+  padding: 0.5rem;
+}
+
+.product-box-aros {
+  display: grid;
+  font-size: 1rem;
+  color: white;
+}
+
+ol{
+  padding-left: 1rem;
+  list-style-position: inside;
+}
+
+li{
+  border-bottom: 0.1rem solid rgb(223, 217, 217);
+  margin-bottom: 0.3rem;
+  margin-right: 2rem;
+}
+
+/* MODO OSCURO*/
+.boton-modoOscuro {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: #e9817d;;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+body.dark{
+  background-color: #141414;
+}
+
+
+.app-container.dark {
+  background-color: #141414;
+  color: white;
+}
+
+.app-container.dark button {
+  background-color: #a7a4a4;
+  color: rgb(0, 0, 0);
+  border: 2px solid #ffffff;
+}
+
+.app-container.dark input,
+.app-container.dark select {
+  background-color: #141414;
+  color: white;
+  border-bottom: 2px solid #ffffff;
+}

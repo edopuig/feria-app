@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Feria App</string>
+    <string name="title_activity_main">Feria App</string>
+    <string name="package_name">com.tuempresa.app</string>
+    <string name="custom_url_scheme">com.tuempresa.app</string>
+</resources>

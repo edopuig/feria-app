@@ -1,0 +1,6 @@
+{
+  "appId": "com.tuempresa.app",
+  "appName": "Feria App",
+  "webDir": "dist",  
+  "bundledWebRuntime": false
+}
