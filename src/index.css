@@ -183,10 +183,16 @@ input[type="number"] {
 .nombreImput{
   grid-column: span 3;
   width: 80%;
-  box-sizing: border-box;
   border: none;
   border-bottom: 2px solid #d8e9ca;
   background-color: #fff8e5;
+}
+
+.MostrarProductos{
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  grid-column:  8;
 }
 
 .tipoPagoLabel{

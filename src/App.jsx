@@ -24,7 +24,7 @@ function App() {
     indexedBBDD.obtenerVentas().then(setVentasDefinitivas);
     const guardado = localStorage.getItem('modoOscuro');
     if (guardado === '1') setModoOscuro(true);
-    
+
     cargarProductos();
 
   }, []);
@@ -57,11 +57,11 @@ function App() {
     const hayProductos = Object.keys(sales).length > 0;
     const hayOtros = parseFloat(otrosValor) > 0;
     const hayTextoOtros = otrosTexto.trim() !== "";
-  
+
     if (!hayProductos && !hayOtros) return;
-  
+
     console.log('storeProducte:', ventasDefinitivas);
-    
+
     const productosSeleccionados = productos
       .filter((product) => sales[product.id] > 0)
       .map((product) => ({
@@ -69,7 +69,7 @@ function App() {
         quantity: sales[product.id],
         price: product.preu,
       }));
-  
+
     if (hayOtros || hayTextoOtros) {
       if (otrosTexto.trim() !== "") {
         productosSeleccionados.push({
@@ -85,19 +85,19 @@ function App() {
         });
       }
     }
-  
+
     const totalPrecio = productosSeleccionados.reduce(
       (total, p) => total + p.price * p.quantity,
       0
     );
-  
+
     const nuevaVenta = {
       nombre: nombreVenta || "",
       productos: productosSeleccionados,
       totalPrecio,
       bizum: bizumSeleccionado || null,
     };
-  
+
     try {
       const id = await indexedBBDD.guardarVenta(nuevaVenta);
       setVentasDefinitivas((prev) => [...prev, { ...nuevaVenta, id }]);
@@ -312,6 +312,18 @@ function App() {
             value={nombreVenta}
             onChange={(e) => setNombreVenta(e.target.value)}
           />
+
+          <button className="MostrarProductos" onClick={handleMostrarFormulario}>Mostrar Productos</button>
+
+          {mostrarFormulario && (
+            <div className="modal-overlay" onClick={handleOcultarFormulario}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
+                <FormularioProducto onClose={handleOcultarFormulario} onProductosActualizados={cargarProductos} />
+
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="Opciones">
@@ -340,17 +352,7 @@ function App() {
         </div>
         {mensaje && <div style={{ color: "green", marginTop: "10px" }}>{mensaje}</div>}
 
-        <button onClick={handleMostrarFormulario}>Mostrar Productos</button>
 
-        {mostrarFormulario && (
-          <div className="modal-overlay" onClick={handleOcultarFormulario}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              
-              <FormularioProducto onClose={handleOcultarFormulario} onProductosActualizados={cargarProductos} />
-
-            </div>
-          </div>
-        )}
       </div>
 
       <div className={`right-column ${!mostrarVentas ? 'oculta' : ''}`}>
