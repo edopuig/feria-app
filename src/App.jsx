@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { products } from "./products";
-import { guardarVenta, obtenerVentas, eliminarVenta as eliminarVentaDB } from "./indexedDB";
+import { guardarVenta, obtenerVentas, eliminarVenta as eliminarVentaDB } from "./funcionalitats/indexedDB";
 import ExcelJS from "exceljs";
 import { Filesystem, Directory } from '@capacitor/filesystem';;
 
