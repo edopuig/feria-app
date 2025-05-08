@@ -14,10 +14,10 @@ export default class Producte {
     getNom() {
         return `${this.nom}`;
     }
-    getPreu(){
-        return`${this.preu}`
+    getPreu() {
+        return `${this.preu}`
     }
-    getColor(){
-        return`${this.color}`
+    getColor() {
+        return `${this.color}`
     }
 }
