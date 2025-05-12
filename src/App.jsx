@@ -3,6 +3,8 @@ import indexedBBDD from "./funcionalitats/indexedDB";
 import ExcelJS from "exceljs";
 import { Filesystem, Directory } from '@capacitor/filesystem';;
 import FormularioProducto from "./Ventanas/FormularioProducto";
+import { motion, AnimatePresence } from "framer-motion"; //Para la animacion
+import Prod from "./clases/Producte";
 
 function App() {
   const [sales, setSales] = useState({});
@@ -18,6 +20,8 @@ function App() {
   const [modoOscuro, setModoOscuro] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [productos, setProductos] = useState([]);
+  let cargaInicial = false;
+
 
 
   useEffect(() => {
@@ -31,8 +35,35 @@ function App() {
 
   const cargarProductos = async () => {
     try {
-      const productosGuardados = await indexedBBDD.obtenerProductos(); // Llista dels obj Producte ja creats
-      setProductos(productosGuardados);  // Actualizamos el estado con los productos obtenidos
+      const productosGuardados = await indexedBBDD.obtenerProductos();
+      console.log("cargaInicial:", cargaInicial);
+      if (productosGuardados.length === 0 && !cargaInicial) {
+        const productosIniciales = [
+          new Prod('Aro P', 2, 'Rojo', 'Aro'),
+          new Prod('Aro N', 2, 'Azul', 'Aro'),
+          new Prod('Aro G', 2, 'Verde', 'Aro'),
+          new Prod('Charm', 2, 'Rojo', 'Charm'),
+          new Prod('Charm', 3, 'Azul', 'Charm'),
+          new Prod('Pulsera', 5, 'Verde', 'Pulsera'),
+          new Prod('Collar', 6, 'Azul', 'Collar'),
+          new Prod('Sumar', 1, 'Azul', 'Sumar')
+        ];
+
+        cargaInicial = true;  // Marca que la carga inicial se ha realizado
+
+        for (let producto of productosIniciales) {
+          await indexedBBDD.guardarProducto(producto);
+        }
+
+        // Obtén los productos después de haberlos agregado
+        const productosActualizados = await indexedBBDD.obtenerProductos();
+        
+        setProductos(productosActualizados);  // Actualiza el estado
+        
+      } else {
+        cargaInicial = true;  // Marca que la carga inicial se ha realizado
+        setProductos(productosGuardados);  // Actualiza el estado
+      }
     } catch (error) {
       console.error("Error al obtener los productos: ", error);
     }
@@ -314,16 +345,24 @@ function App() {
           />
 
           <button className="MostrarProductos" onClick={handleMostrarFormulario}>Mostrar Productos</button>
+          <AnimatePresence>
+            {mostrarFormulario && (<motion.div
+              initial={{ opacity: 0, y: -0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -0 }}
+              transition={{ duration: 0.5 }}
+              className="modal-overlay"
+            >
+              <div className="modal-overlay" onClick={handleOcultarFormulario}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
 
-          {mostrarFormulario && (
-            <div className="modal-overlay" onClick={handleOcultarFormulario}>
-              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                  <FormularioProducto onClose={handleOcultarFormulario} onProductosActualizados={cargarProductos} />
 
-                <FormularioProducto onClose={handleOcultarFormulario} onProductosActualizados={cargarProductos} />
-
+                </div>
               </div>
-            </div>
-          )}
+            </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className="Opciones">

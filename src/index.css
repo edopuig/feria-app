@@ -73,7 +73,6 @@ h1 {
   background-color: #fff8e5;
   min-height: 100vh;
   overflow-y: auto;
-  padding-bottom: 5vh; /* Para dar espacio cuando aparece el teclado */
   position: relative;
 }
 
@@ -142,7 +141,7 @@ button:focus-visible {
 
 .product-box {
   border: 2px solid #d8e9ca;
-  padding: 1.7rem;
+  padding: 1.4rem;
   font-size: 1.3rem;
   background: #d8e9ca;
   color: black;

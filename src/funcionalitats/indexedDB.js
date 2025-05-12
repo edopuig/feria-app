@@ -25,7 +25,6 @@ const indexedBBDD = {
   },
 
   guardarProducto: async function (venta) {
-    
     const db = await this.openDB();
     return new Promise((resolve, reject) => {
       const tx = db.transaction(PRODUCTOS, "readwrite");

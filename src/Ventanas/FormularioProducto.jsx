@@ -7,8 +7,8 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
   const [precio, setPrecio] = useState('');
   const [color, setColor] = useState('');
   const [categoria, setCategoria] = useState('');
-  const [productos, setProductos] = useState([]);
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null); // Nuevo estado
+  const [productos, setProductos] = useState([]); //Llista de productos
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null); // Variable per saber si s'actualitza o es guarda un producte
 
   useEffect(() => {
     cargarProductos();
@@ -37,7 +37,6 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
     const producto = new Producte(nombre, precio, color, categoria);
     try {
       await indexedBBDD.guardarProducto(producto);
-      alert('Producto guardado exitosamente!');
       resetFormulario();
       cargarProductos();
       onProductosActualizados();
@@ -59,7 +58,6 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
       await indexedBBDD.eliminarProducto(productoSeleccionado.id);
       await indexedBBDD.guardarProducto(productoActualizado);
 
-      alert('Producto actualizado exitosamente!');
       resetFormulario();
       cargarProductos();
       onProductosActualizados();
@@ -117,16 +115,6 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
       </div>
 
       <div>
-        <label>Color:</label>
-        <input
-          type="text"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          required
-        />
-      </div>
-
-      <div>
         <label>Categoría:</label>
         <input
           type="text"
@@ -146,14 +134,9 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
           {productos.map((producto) => (
             <li key={producto.id}>
               <span onClick={() => seleccionarProducto(producto)} style={{ cursor: "pointer" }}>
-                {producto.nom} - ${producto.preu} - {producto.color} - {producto.categoria}
+                {producto.nom} - ${producto.preu}  - {producto.categoria}
               </span>
-              <button 
-                type="button" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  eliminarProducto(producto.id);
-                }}
+              <button type="button" onClick={(e) => { e.preventDefault(); eliminarProducto(producto.id);}}
                 className="eliminar-button"
               >
                 X
