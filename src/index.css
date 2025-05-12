@@ -147,13 +147,6 @@ button:focus-visible {
   color: black;
 }
 
-.eliminar-button {
-  margin-left: 10px;
-  color: #e9817d;
-  border: none;
-  background: none;
-  font-size: 18px;
-}
 
 select,
 input[type="text"],
@@ -317,7 +310,6 @@ body.dark{
   background-color: #141414;
 }
 
-
 .app-container.dark {
   background-color: #141414;
   color: white;
@@ -356,4 +348,49 @@ body.dark{
   max-height: 90%;
   overflow-y: auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.formulario-producto-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.formulario {
+  flex: 1;
+}
+
+.productos-list {
+  flex: 1;
+  padding-left: 1rem;
+  max-height: 50vh;
+  overflow-y: auto;
+  border-left: 2px solid #000;
+  padding-left: 1rem;
+}
+
+.producto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.producto-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+
+.eliminar-button {
+  color: #e9817d;
+}
+
+.productos-buttons{
+  background: none;
+  border: none;
 }

@@ -93,59 +93,41 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Nombre del producto:</label>
-        <input
-          type="text"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-      </div>
+    <div className="formulario-producto-container" >
+      <form className="formulario" onSubmit={handleSubmit}>
+        <div>
+          <label>Nombre del producto:</label>
+          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+        </div>
 
-      <div>
-        <label>Precio:</label>
-        <input
-          type="number"
-          value={precio}
-          onChange={(e) => setPrecio(e.target.value)}
-          required
-        />
-      </div>
+        <div>
+          <label>Precio:</label>
+          <input type="number" value={precio} onChange={(e) => setPrecio(e.target.value)} required />
+        </div>
 
-      <div>
-        <label>Categoría:</label>
-        <input
-          type="text"
-          value={categoria}
-          onChange={(e) => setCategoria(e.target.value)}
-          required
-        />
-      </div>
-      
-      <button type="submit">{productoSeleccionado ? "Actualizar Producto" : "Guardar Producto"}</button>
-      <button onClick={onClose}>Cancelar</button>
+        <div>
+          <label>Categoría:</label>
+          <input type="text" value={categoria} onChange={(e) => setCategoria(e.target.value)} required />
+        </div>
 
-      {/* Lista de productos */}
-      <div>
+        <button type="submit">{productoSeleccionado ? "Actualizar Producto" : "Guardar Producto"}</button>
+        <button onClick={onClose}>Cancelar</button>
+      </form>
+
+      <div className="productos-list">
         <h2>Productos guardados</h2>
-        <ul>
+        <ol>
           {productos.map((producto) => (
             <li key={producto.id}>
-              <span onClick={() => seleccionarProducto(producto)} style={{ cursor: "pointer" }}>
-                {producto.nom} - ${producto.preu}  - {producto.categoria}
-              </span>
-              <button type="button" onClick={(e) => { e.preventDefault(); eliminarProducto(producto.id);}}
-                className="eliminar-button"
-              >
-                X
+              <button className="productos-buttons" onClick={() => seleccionarProducto(producto)}>
+                {producto.nom} - ${producto.preu} - {producto.categoria}
               </button>
+              <button className="productos-buttons eliminar-button" onClick={() => eliminarProducto(producto.id)}>X</button>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
-    </form>
+    </div>
   );
 };
 
