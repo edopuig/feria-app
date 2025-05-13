@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Producte from '../clases/Producte'; 
-import indexedBBDD from '../funcionalitats/indexedDB'; 
+import Producte from '../clases/Producte';
+import indexedBBDD from '../funcionalitats/indexedDB';
 
 const FormularioProducto = ({ onClose, onProductosActualizados }) => {
   const [nombre, setNombre] = useState('');
@@ -19,7 +19,7 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
       const productosGuardados = await indexedBBDD.obtenerProductos();
       setProductos(productosGuardados);
     } catch (error) {
-      console.error("Error al obtener los productos: ", error);
+      setMensaje(`❌ Error al obtener los productos`);
     }
   };
 
@@ -72,7 +72,7 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
       cargarProductos();
       onProductosActualizados();
     } catch (err) {
-      console.error("Error al eliminar producto:", err);
+      setMensaje(`❌ Error al eliminar producto`);
     }
   };
 
@@ -96,22 +96,29 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
     <div className="formulario-producto-container" >
       <form className="formulario" onSubmit={handleSubmit}>
         <div>
-          <label>Nombre del producto:</label>
-          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+          <label className="NombreProductLabel">Nombre del producto:</label>
+          <input className="ProductInput" type="text" placeholder="Nombre del producto" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
         </div>
 
         <div>
           <label>Precio:</label>
-          <input type="number" value={precio} onChange={(e) => setPrecio(e.target.value)} required />
+          <input className="ProductInput" type="number" placeholder="€" value={precio} onChange={(e) => setPrecio(e.target.value)} required />
         </div>
 
         <div>
           <label>Categoría:</label>
-          <input type="text" value={categoria} onChange={(e) => setCategoria(e.target.value)} required />
+          <input className="ProductInput" type="text" placeholder="Categoria" value={categoria} onChange={(e) => setCategoria(e.target.value)} required />
         </div>
 
-        <button type="submit">{productoSeleccionado ? "Actualizar Producto" : "Guardar Producto"}</button>
-        <button onClick={onClose}>Cancelar</button>
+        <div>
+          <button type="button" onClick={resetFormulario} className="boton-cancelarProducto">
+            Limpiar
+          </button>
+          <button type="submit" className="boton-gauardarProducto">
+            {productoSeleccionado ? "Actualizar Producto" : "Guardar Producto"}
+          </button>
+        </div>
+
       </form>
 
       <div className="productos-list">
@@ -120,7 +127,7 @@ const FormularioProducto = ({ onClose, onProductosActualizados }) => {
           {productos.map((producto) => (
             <li key={producto.id}>
               <button className="productos-buttons" onClick={() => seleccionarProducto(producto)}>
-                {producto.nom} - ${producto.preu} - {producto.categoria}
+                {producto.nom} - {producto.preu}€ - {producto.categoria}
               </button>
               <button className="productos-buttons eliminar-button" onClick={() => eliminarProducto(producto.id)}>X</button>
             </li>

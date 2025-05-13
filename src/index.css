@@ -70,7 +70,7 @@ h1 {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background-color: #fff8e5;
+  background-color: #fcf9f2;
   min-height: 100vh;
   overflow-y: auto;
   position: relative;
@@ -177,7 +177,7 @@ input[type="number"] {
   width: 80%;
   border: none;
   border-bottom: 2px solid #d8e9ca;
-  background-color: #fff8e5;
+  background-color: #fcf9f2;
 }
 
 .MostrarProductos{
@@ -199,7 +199,7 @@ input[type="number"] {
   width: 80%;
   border: none;
   border-radius: 4px;
-  background-color: #fff8e5;
+  background-color: #fcf9f2;
   border-bottom: 2px solid #d8e9ca;
 }
 
@@ -217,7 +217,7 @@ input[type="number"] {
   box-sizing: border-box;
   border: none;
   border-bottom: 2px solid #d8e9ca;
-  background-color: #fff8e5;
+  background-color: #fcf9f2;
 }
 .OtroPagoImput{
   grid-column: span 1;
@@ -225,7 +225,7 @@ input[type="number"] {
   box-sizing: border-box;
   border: none;
   border-bottom: 2px solid #d8e9ca;
-  background-color: #fff8e5;
+  background-color: #fcf9f2;
 }
 
 .buttons-grid{
@@ -293,7 +293,7 @@ li{
   margin-right: 2rem;
 }
 
-/* MODO OSCURO*/
+/* Modo oscuro */
 .boton-modoOscuro {
   position: absolute;
   top: 1rem;
@@ -306,12 +306,34 @@ li{
   font-weight: bold;
 }
 
-body.dark{
+body.dark, .app-container.dark {
   background-color: #141414;
+  color: white;
 }
 
-.app-container.dark {
-  background-color: #141414;
+.app-container.dark .modal-content,
+.app-container.dark .formulario-producto-container {
+  background-color: #1e1e1e;
+}
+
+.app-container.dark .ProductInput {
+  background-color: #2c2c2c;
+  color: white;
+}
+
+.app-container.dark .productos-list {
+  background-color: #1e1e1e;
+  color: white;
+  border-left: 2px solid #555;
+}
+
+.app-container.dark .boton-gauardarProducto {
+  background-color: #3a3a3a;
+  color: white;
+}
+
+.app-container.dark .boton-cancelarProducto {
+  background-color: #b33a3a;
   color: white;
 }
 
@@ -321,12 +343,15 @@ body.dark{
   border: 2px solid #ffffff;
 }
 
-.app-container.dark input,
-.app-container.dark select {
+.app-container.dark input, .app-container.dark select {
   background-color: #141414;
   color: white;
   border-bottom: 2px solid #ffffff;
 }
+
+
+
+/* FormularioPRoducto css */
 
 .modal-overlay {
   position: fixed;
@@ -341,13 +366,10 @@ body.dark{
 }
 
 .modal-content {
-  background: white;
+  background-color: #fcf9f2;
   padding: 20px;
   border-radius: 8px;
-  max-width: 90%;
-  max-height: 90%;
   overflow-y: auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .formulario-producto-container {
@@ -359,6 +381,8 @@ body.dark{
 
 .formulario {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .productos-list {
@@ -388,9 +412,50 @@ body.dark{
 
 .eliminar-button {
   color: #e9817d;
+  background: none;
+  border: none;
 }
 
 .productos-buttons{
   background: none;
   border: none;
+}
+
+.ProductInput{
+   border: none;
+  border-radius: 4px;
+  background-color: #fcf9f2;
+  border-bottom: 2px solid #d8e9ca;
+}
+
+/* Contenedor de cada label y input */
+.formulario div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem; /* Espaciado entre los campos */
+}
+
+.formulario label {
+  font-weight: 600;
+  margin-right: 1rem; /* Espaciado entre el label y el input */
+}
+
+.formulario input {
+  flex: 1; /* Hace que el input ocupe el espacio restante */
+  padding: 0.8rem;
+  border-radius: 4px;
+}
+
+.boton-gauardarProducto {
+  align-self: flex-end; /* Esto alinea el botón a la derecha */
+  margin-left: auto; /* Esto asegura que el botón se quede pegado a la derecha */
+  padding: 1rem;
+  color: white;
+  background: #a3bfa6;
+}
+
+.boton-cancelarProducto {
+  background-color: #e9817d;
+  color: white;
+  padding: 1rem;
 }

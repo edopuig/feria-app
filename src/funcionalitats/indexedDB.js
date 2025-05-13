@@ -72,6 +72,18 @@ const indexedBBDD = {
     });
   },
 
+  actualizarVenta: async function (id, venta) {
+  const db = await this.openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.put({ ...venta, id });
+
+    request.onsuccess = () => resolve(request.result); // el ID de la venta actualizada
+    request.onerror = () => reject("Error al actualizar la venta");
+  });
+},
+
   obtenerVentas: async function () {
     const db = await this.openDB();
     const tx = db.transaction(STORE_NAME, "readonly");

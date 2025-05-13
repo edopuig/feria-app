@@ -13,13 +13,14 @@ function App() {
   const [otrosTexto, setOtrosTexto] = useState("");
   const [otrosValor, setOtrosValor] = useState(0);
   const [mensaje, setMensaje] = useState("");
-  const [mostrarVentas, setMostrarVentas] = useState(true); //Si esta o no desplegado el listado de ventas
+  const [mostrarVentas, setMostrarVentas] = useState(false); //Si esta o no desplegado el listado de ventas
   const opcionesBizum = ["", "Bizum Marta", "Bizum Chari", "Bizum Edo", "Bizum Carla"];
   const [nombreVenta, setNombreVenta] = useState("");
   const [titulo, setTitulo] = useState("FERIA");
   const [modoOscuro, setModoOscuro] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [productos, setProductos] = useState([]);
+  const [ventaSeleccionada, setVentaSeleccionada] = useState(null); //Para saber si se ha seleccionado o no una venta creada
   let cargaInicial = false;
 
 
@@ -36,7 +37,6 @@ function App() {
   const cargarProductos = async () => {
     try {
       const productosGuardados = await indexedBBDD.obtenerProductos();
-      console.log("cargaInicial:", cargaInicial);
       if (productosGuardados.length === 0 && !cargaInicial) {
         const productosIniciales = [
           new Prod('Aro P', 2, 'Rojo', 'Aro'),
@@ -57,15 +57,15 @@ function App() {
 
         // Obtén los productos después de haberlos agregado
         const productosActualizados = await indexedBBDD.obtenerProductos();
-        
+
         setProductos(productosActualizados);  // Actualiza el estado
-        
+
       } else {
         cargaInicial = true;  // Marca que la carga inicial se ha realizado
         setProductos(productosGuardados);  // Actualiza el estado
       }
     } catch (error) {
-      console.error("Error al obtener los productos: ", error);
+      setMensaje(`❌ Error al obtener los productos`);
     }
   };
 
@@ -84,6 +84,30 @@ function App() {
     return totalProductos + parseFloat(otrosValor || 0); // Añade el valor de "otros"
   };
 
+  const seleccionarVenta = (venta) => {
+    setVentaSeleccionada(venta);
+    const newSales = {};
+    venta.productos.forEach((p) => {
+      const product = productos.find((prod) => prod.nom === p.name && prod.preu === p.price);
+      if (product) newSales[product.id] = p.quantity;
+    });
+    setSales(newSales);
+    setNombreVenta(venta.nombre || "");
+    const otrosProducto = venta.productos.find(p => p.name === "Otros" || !productos.some(prod => prod.nom === p.name));
+    setOtrosTexto(otrosProducto ? otrosProducto.name : "");
+    setOtrosValor(otrosProducto ? otrosProducto.price : 0);
+    setBizumSeleccionado(venta.bizum || "");
+  };
+
+  const cancelarEdicion = () => {
+    setVentaSeleccionada(null);
+    setNombreVenta("");
+    setSales({});
+    setOtrosTexto("");
+    setOtrosValor(0);
+    setBizumSeleccionado("");
+  };
+
   const registrarVenta = async () => {
     const hayProductos = Object.keys(sales).length > 0;
     const hayOtros = parseFloat(otrosValor) > 0;
@@ -91,7 +115,7 @@ function App() {
 
     if (!hayProductos && !hayOtros) return;
 
-    console.log('storeProducte:', ventasDefinitivas);
+
 
     const productosSeleccionados = productos
       .filter((product) => sales[product.id] > 0)
@@ -130,13 +154,18 @@ function App() {
     };
 
     try {
-      const id = await indexedBBDD.guardarVenta(nuevaVenta);
-      setVentasDefinitivas((prev) => [...prev, { ...nuevaVenta, id }]);
-      setSales({});
-      setBizumSeleccionado("");
-      setOtrosTexto("");
-      setOtrosValor(0);
-      setNombreVenta("");
+      if (ventaSeleccionada) {
+        const id = await indexedBBDD.actualizarVenta(ventaSeleccionada.id, nuevaVenta);
+        setVentasDefinitivas((prev) =>
+          prev.map((venta) =>
+            venta.id === ventaSeleccionada.id ? { ...nuevaVenta, id: ventaSeleccionada.id } : venta
+          )
+        );
+      } else {
+        const id = await indexedBBDD.guardarVenta(nuevaVenta);
+        setVentasDefinitivas((prev) => [...prev, { ...nuevaVenta, id }]);
+      }
+      cancelarEdicion();
       const productosTexto = productosSeleccionados
         .map(p => `${p.name} ${p.price}€ x${p.quantity}`)
         .join(', ');
@@ -145,17 +174,16 @@ function App() {
         setMensaje("");
       }, 6000);
     } catch (err) {
-      console.error("Error al guardar venta:", err);
       setMensaje(`❌ Error al registrar venta`);
     }
   };
 
   const eliminarVenta = async (id) => {
+    if (!window.confirm("¿Seguro que quieres eliminar esta venta?")) return;
     try {
       await indexedBBDD.eliminarVenta(id); // usa la función de indexedDB.js
       setVentasDefinitivas((prev) => prev.filter((v) => v.id !== id)); //
     } catch (err) {
-      console.error("Error al eliminar venta:", err);
       setMensaje("❌ Error al eliminar venta");
     }
   };
@@ -217,7 +245,6 @@ function App() {
 
       alert(`✅ Excel guardado en Documentos: ${titulo}`);
     } catch (error) {
-      console.error("Error al guardar el archivo:", error);
       alert("❌ Error al guardar archivo");
     }
   };
@@ -253,7 +280,6 @@ function App() {
       setTimeout(() => setMensaje(""), 4000);
       setNombreVenta("");
     } catch (err) {
-      console.error("Error al limpiar todo:", err);
       setMensaje("❌ Error al limpiar datos");
     }
   };
@@ -279,7 +305,7 @@ function App() {
         localStorage.setItem('modoOscuro', nuevoModo ? '1' : '0');
       }}
       >
-        {modoOscuro ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+        {modoOscuro ? "🌙" : "☀️"}
       </button>
       <div className={`left-column ${mostrarVentas ? 'estrecha' : 'ancha'}`}>
         <input className="titulo-editable" value={titulo}
@@ -313,25 +339,7 @@ function App() {
           ))}
         </div>
 
-        <div className="OtrosPagos">
-          <label className="NombreLabel" htmlFor="Otros">Otros</label>
-          <input
-            className="nombreOtroPagoImput"
-            id="Otros"
-            type="text"
-            placeholder="Pagos extra"
-            value={otrosTexto}
-            onChange={(e) => setOtrosTexto(e.target.value)}
-          />
-          <input
-            className="OtroPagoImput"
-            id="Otros2"
-            type="number"
-            placeholder="€"
-            value={otrosValor}
-            onChange={(e) => setOtrosValor(parseFloat(e.target.value) || 0)}
-          />
-        </div>
+
 
         <div className="Opciones">
           <label className="NombreLabel" htmlFor="nombre">Nombre</label>
@@ -374,6 +382,26 @@ function App() {
           </select>
         </div>
 
+        <div className="OtrosPagos">
+          <label className="NombreLabel" htmlFor="Otros">Otros</label>
+          <input
+            className="nombreOtroPagoImput"
+            id="Otros"
+            type="text"
+            placeholder=" Info extra"
+            value={otrosTexto}
+            onChange={(e) => setOtrosTexto(e.target.value)}
+          />
+          <input
+            className="OtroPagoImput"
+            id="Otros2"
+            type="number"
+            placeholder="€"
+            value={otrosValor}
+            onChange={(e) => setOtrosValor(parseFloat(e.target.value) || 0)}
+          />
+        </div>
+
         <div className="buttons-grid">
           <button className="boton-limpiar" onClick={() => {
             setSales({});
@@ -386,8 +414,11 @@ function App() {
           </button>
           <div className="total">TOTAL: {getTotal()}€</div>
           <button className="boton-registrar" onClick={registrarVenta}>
-            Registrar Venta
+            {ventaSeleccionada ? "Actualizar Venta" : "Registrar Venta"}
           </button>
+
+          {ventaSeleccionada && <button onClick={cancelarEdicion}>Cancelar Edición</button>}
+
         </div>
         {mensaje && <div style={{ color: "green", marginTop: "10px" }}>{mensaje}</div>}
 
@@ -403,12 +434,17 @@ function App() {
             <h3>Ventas registradas</h3>
             <ol>
               {ventasDefinitivas.map((venta) => (
-                <li key={venta.id}>
-                  {venta.productos.map((p) => `${p.name} ${p.price}€ x${p.quantity}`)
-                    .join(", ")}{" "}
+                <li key={venta.id} onClick={() => seleccionarVenta(venta)}>
+                  {venta.nombre}{" "}
+                  {venta.productos.map((p) => `${p.quantity}x ${p.name} ${p.price}€ `).join(", ")}{" "}
                   - {venta.totalPrecio}€
                   {venta.bizum && ` (${venta.bizum})`}
-                  <button onClick={() => eliminarVenta(venta.id)} className="eliminar-button">X</button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Evitar que el evento de seleccionar se dispare
+                      eliminarVenta(venta.id);
+                    }}
+                    className="eliminar-button">X</button>
                 </li>
               ))}
             </ol>

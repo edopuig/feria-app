@@ -1,5 +1,6 @@
 // src/models/Product.js
 export default class Producte {
+    //El producte es el Pare de tot, el que controla de quina categoria ets per dirigirte a on toca
     constructor(nom, preu, color, categoria) {
         this.nom = nom;
         this.preu = preu;
@@ -8,7 +9,7 @@ export default class Producte {
     }
 
     getProducte() {
-        return `${this.nom}: ${this.preu} - $${this.color}`;
+        return `${this.nom}: ${this.preu}, ${this.color}, ${this.categoria}`;
     }
 
     getNom() {
