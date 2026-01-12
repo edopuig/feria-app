@@ -293,6 +293,12 @@ function App() {
     setMostrarFormulario(false);
   };
 
+  const productosPorCategoria = productos.reduce((acc, p) => {
+  acc[p.categoria] = acc[p.categoria] || [];
+  acc[p.categoria].push(p);
+  return acc;
+}, {});
+
   return (
     <div className={`app-container ${modoOscuro ? 'dark' : ''}`}>
       <button className="boton-reset" onClick={limpiarTodo}>
@@ -312,33 +318,35 @@ function App() {
           onChange={(e) => setTitulo(e.target.value)}
         />
 
-        <div className="products-grid">
-          {/* Botones agrupados para "aros" */}
-          <div className="product-box-aros">
-            {productos.filter(p => p.categoria === 'Aro').map((product) => (
-              <button
-                className="arosButton"
-                key={product.id}
-                onClick={() => addSale(product.id)}
-                style={{ flex: 1 }}
-              >
-                {product.nom} <br></br>{product.preu}€: {sales[product.id] || 0}
-              </button>
-            ))}
-          </div>
 
-          {/* Otros productos */}
-          {productos.filter(p => p.categoria !== 'Aro').map((product) => (
-            <button
-              key={product.id}
-              className="product-box"
-              onClick={() => addSale(product.id)}
-            >
-              {product.nom} {product.preu}€: <br></br>{sales[product.id] || 0}
-            </button>
+        <div className="products-grid">
+          {Object.entries(productosPorCategoria).map(([categoria, items]) => (
+            items.length > 1 ? (
+              // Categorías repetidas → agrupadas
+              <div key={categoria} className="product-box-aros">
+                {items.map(product => (
+                  <button
+                    key={product.id}
+                    className="arosButton"
+                    onClick={() => addSale(product.id)}
+                    style={{ flex: 1 }}
+                  >
+                    {product.nom}<br />{product.preu}€: {sales[product.id] || 0}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              // Categorías únicas → individuales
+              <button
+                key={items[0].id}
+                className="product-box"
+                onClick={() => addSale(items[0].id)}
+              >
+                {items[0].nom} {items[0].preu}€<br />{sales[items[0].id] || 0}
+              </button>
+            )
           ))}
         </div>
-
 
 
         <div className="Opciones">
