@@ -14,9 +14,9 @@ function App() {
   const [otrosValor, setOtrosValor] = useState(0);
   const [mensaje, setMensaje] = useState("");
   const [mostrarVentas, setMostrarVentas] = useState(false); //Si esta o no desplegado el listado de ventas
-  const opcionesBizum = ["", "Bizum Marta", "Bizum Chari", "Bizum Edo", "Bizum Carla"];
+  const opcionesBizum = ["", "Detafono", "Bizum Carla", "Bizum Eva"];
   const [nombreVenta, setNombreVenta] = useState("");
-  const [titulo, setTitulo] = useState("FERIA");
+  const [titulo, setTitulo] = useState("VERMUT");
   const [modoOscuro, setModoOscuro] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [productos, setProductos] = useState([]);
@@ -39,14 +39,24 @@ function App() {
       const productosGuardados = await indexedBBDD.obtenerProductos();
       if (productosGuardados.length === 0 && !cargaInicial) {
         const productosIniciales = [
-          new Prod('Aro P', 2, 'Rojo', 'Aro'),
-          new Prod('Aro N', 2, 'Azul', 'Aro'),
-          new Prod('Aro G', 2, 'Verde', 'Aro'),
-          new Prod('Charm', 2, 'Rojo', 'Charm'),
-          new Prod('Charm', 3, 'Azul', 'Charm'),
-          new Prod('Pulsera', 5, 'Verde', 'Pulsera'),
-          new Prod('Collar', 6, 'Azul', 'Collar'),
-          new Prod('Sumar', 1, 'Azul', 'Sumar')
+          new Prod('Agua', 1, 'Rojo', 'Agua'),
+          new Prod('Vermut', 3, 'Azul', 'Vermut'),
+          new Prod('Taronjada', 2.50, 'Verde', 'Natural'),
+          new Prod('Llimonada', 2.50, 'Rojo', 'Natural'),
+          new Prod('Coca-cola N', 2.50, 'Azul', 'Cocacola'),
+          new Prod('Coca-cola 0', 2.50, 'Verde', 'Cocacola'),
+          new Prod('S pressec', 2.50, 'Azul', 'Suc'),
+          new Prod('S piña', 2.50, 'Azul', 'Suc'),
+          new Prod('S taronja', 2.50, 'Rojo', 'Suc'),
+          new Prod('Olives', 1.50, 'Azul', 'Olives'),
+          new Prod('Patates', 1.50, 'Verde', 'Patates'),
+          new Prod('Estrella Dam', 2.50, 'Azul', 'Birra'),
+          new Prod('Daura', 2.50, 'Azul', 'Birra'),
+          new Prod('Damm lemon', 2.50, 'Azul', 'Birra'),
+          new Prod('Free Damm', 2.50, 'Verde', 'Free'),
+          new Prod('Free Damm torrada', 2.50, 'Azul', 'Free'),
+          new Prod('Turia', 3, 'Azul', 'Tostada'),
+          new Prod('IPA', 3, 'Azul', 'Tostada')
         ];
 
         cargaInicial = true;  // Marca que la carga inicial se ha realizado
