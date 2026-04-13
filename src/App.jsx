@@ -39,14 +39,27 @@ function App() {
       const productosGuardados = await indexedBBDD.obtenerProductos();
       if (productosGuardados.length === 0 && !cargaInicial) {
         const productosIniciales = [
-          new Prod('Aro P', 2, 'Rojo', 'Aro'),
-          new Prod('Aro N', 2, 'Azul', 'Aro'),
-          new Prod('Aro G', 2, 'Verde', 'Aro'),
-          new Prod('Charm', 2, 'Rojo', 'Charm'),
-          new Prod('Charm', 3, 'Azul', 'Charm'),
-          new Prod('Pulsera', 5, 'Verde', 'Pulsera'),
-          new Prod('Collar', 6, 'Azul', 'Collar'),
-          new Prod('Sumar', 1, 'Azul', 'Sumar')
+          new Prod('Arcoiris', 2, 'Arcoiris', 'Arcoiris'),
+          new Prod('T', 2, 'Arcoiris', 'Arcoiris'),
+          new Prod('Rojo', 2, 'Rojo', 'Rojo'),
+          new Prod('T', 2, 'Rojo', 'Rojo'),
+          new Prod('Amarillo', 3, 'Amarillo', 'Amarillo'),
+          new Prod('T', 5, 'Amarillo', 'Amarillo'),
+          new Prod('Rosa', 6, 'Rosa', 'Rosa'),
+          new Prod('T', 1, 'Rosa', 'Rosa'),
+          new Prod('Naranja', 1, 'Naranja', 'Naranja'),
+          new Prod('T', 2, 'Naranja', 'Naranja'),
+          new Prod('Lila', 2, 'Lila', 'Lila'),
+          new Prod('T', 2, 'Lila', 'Lila'),
+          new Prod('Azul C', 3, 'Azul C', 'Azul C'),
+          new Prod('Azul O', 6, 'Azul O', 'Azul O'),
+          new Prod('T', 1, 'Azul O', 'Azul O'),
+          new Prod('Cat', 1, 'Cat', 'Cat'),
+          new Prod('T', 2, 'Cat', 'Cat'),
+          new Prod('Negro', 2, 'Negro', 'Negro'),
+          new Prod('Barça', 2, 'Barça', 'Barça'),
+          new Prod('Futbol', 5, 'Futbol', 'Futbol'),
+          new Prod('Jarron', 6, 'Jarron', 'Jarron')
         ];
 
         cargaInicial = true;  // Marca que la carga inicial se ha realizado
