@@ -14,7 +14,7 @@ function App() {
   const [otrosValor, setOtrosValor] = useState(0);
   const [mensaje, setMensaje] = useState("");
   const [mostrarVentas, setMostrarVentas] = useState(false); //Si esta o no desplegado el listado de ventas
-  const opcionesBizum = ["", "Detafono", "Bizum Carla", "Bizum Eva"];
+  const opcionesBizum = ["", "Tarjeta", "Invitación"];
   const [nombreVenta, setNombreVenta] = useState("");
   const [titulo, setTitulo] = useState("VERMUT");
   const [modoOscuro, setModoOscuro] = useState(false);
@@ -395,7 +395,7 @@ function App() {
           <label className="tipoPagoLabel" htmlFor="tipoPago"> Pago con</label>
           <select className="tipoPagoSelect" id="tipoPago" value={bizumSeleccionado} onChange={(e) => setBizumSeleccionado(e.target.value)}>
             {opcionesBizum.map((op) => (
-              <option key={op} value={op}>{op || "efectivo"}</option>
+              <option key={op} value={op}>{op || "Efectivo"}</option>
             ))}
           </select>
         </div>
